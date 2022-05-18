@@ -8,9 +8,11 @@ echo "::add-matcher::${HOME}/problem-matcher.json"
 cd $GITHUB_WORKSPACE
 
 # Custom
-$PATH_TO_RUN = $GITHUB_WORKSPACE
-test -z "${MODULE_PATH}" && MODULE_PATH=$INPUT_MODULE_PATH
-test -z "${MODULE_PATH}" && $PATH_TO_RUN = "${PATH_TO_RUN}" & "/" & "${INPUT_MODULE_PATH}"
+#$PATH_TO_RUN = $GITHUB_WORKSPACE
+#test -z "${MODULE_PATH}" && MODULE_PATH=$INPUT_MODULE_PATH
+#test -z "${MODULE_PATH}" && $PATH_TO_RUN = "${PATH_TO_RUN}" & "/" & "${INPUT_MODULE_PATH}"
+
+test -z "${TEST}" && TEST='skyswitch/skyswitch/app/code'
 # End Custom
 
 test -z "${PHPCS_STANDARD}" && PHPCS_STANDARD=$INPUT_PHPCS_STANDARD
@@ -27,10 +29,11 @@ echo "PHPCS report: ${PHPCS_REPORT}"
 echo "PHPCS standard: ${PHPCS_STANDARD}"
 echo "PHPCS severity: ${PHPCS_SEVERITY}"
 echo "PHPCS severity: ${PHPCS_EXTENSIONS}"
+echo "PHPCS severity: ${TEST}"
 
 sh -c "/root/.composer/vendor/bin/phpcs \
   --report=${PHPCS_REPORT} \
   --extensions=${PHPCS_EXTENSIONS} \
   --severity=${PHPCS_SEVERITY} \
-  --standard=$PHPCS_STANDARD $PATH_TO_RUN \
+  --standard=$PHPCS_STANDARD $TEST \
   -s $*"
